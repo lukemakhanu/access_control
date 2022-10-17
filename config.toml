@@ -1,0 +1,11 @@
+# This is configuration to connect with db
+
+user="root"
+password="<>##golang2019"
+host="localhost"
+port="your_db_port"
+dbname="access_control"
+mysqlDNS="root:<>##golang2019@tcp(localhost:3306)/access_control?charset=utf8"
+mysqlDriver="mysql"
+
+

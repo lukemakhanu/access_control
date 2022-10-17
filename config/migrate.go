@@ -12,10 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package appstructs
+package config
 
-import "fmt"
+import (
+	"github.com/jinzhu/gorm"
+)
 
-func main() {
-	fmt.Printf("App structs")
+// DBMigrate will create & migrate the tables, then make the some relationships if necessary
+func DBMigrate() (*gorm.DB, error) {
+	conn, err := ConnectDB()
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Close()
+
+	//conn.AutoMigrate(domain.News{}, domain.Topic{})
+	//log.Println("Migration has been processed")
+
+	return conn, nil
 }
