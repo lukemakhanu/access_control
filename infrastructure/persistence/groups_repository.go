@@ -39,7 +39,7 @@ func NewGroupsRepositoryWithRDB(conn *sql.DB) repository.GroupsRepository {
 func (r *GroupsRepositoryImpl) Get(id int) (*domain.Groups, error) {
 	var gc domain.Groups
 	statement := fmt.Sprintf("SELECT group_id,group_name,description,project_id,active,created_by, \n"+
-		"updated_by,date_created,date_modified FROM groups where group_id =  '%d' ", id)
+		"updated_by,date_created,date_modified FROM access_control.groups where group_id =  '%d' ", id)
 	log.Printf("statement : %s", statement)
 	rows := r.Conn.QueryRow(statement)
 	log.Printf("rows : %v", rows)
@@ -59,7 +59,7 @@ func (r *GroupsRepositoryImpl) Get(id int) (*domain.Groups, error) {
 // GetAll returns all groups
 func (r *GroupsRepositoryImpl) GetAll() ([]*domain.Groups, error) {
 	qry := fmt.Sprintf("SELECT group_id,group_name,description,project_id,active,created_by, \n" +
-		"updated_by,date_created,date_modified FROM groups ")
+		"updated_by,date_created,date_modified FROM access_control.groups ")
 	gc := make([]*domain.Groups, 0)
 	results, err := r.Conn.Query(qry)
 	if err != nil {
@@ -84,7 +84,7 @@ func (r *GroupsRepositoryImpl) GetAll() ([]*domain.Groups, error) {
 // Save to add group
 func (r *GroupsRepositoryImpl) Save(p *domain.Groups) error {
 	tx, err := r.Conn.Begin()
-	qry := "insert into groups(group_name,description,project_id,active,created_by, \n" +
+	qry := "insert into access_control.groups(group_name,description,project_id,active,created_by, \n" +
 		"updated_by,date_created,date_modified) values (?,?,?,?,?,?,?,?)"
 	log.Printf("Query : %s | GroupID : %d", qry, p.ProjectID)
 	response, err := tx.Exec(qry, p.GroupName, p.Description, p.ProjectID, p.Active, p.CreatedBy,
@@ -109,7 +109,7 @@ func (r *GroupsRepositoryImpl) Save(p *domain.Groups) error {
 // Update to update group
 func (r *GroupsRepositoryImpl) Update(p *domain.Groups) error {
 	tx, err := r.Conn.Begin()
-	statement := "update groups set group_name=?,description=?,project_id=?,\n" +
+	statement := "update access_control.groups set group_name=?,description=?,project_id=?,\n" +
 		"active=?,created_by=?,updated_by=?,date_created=?,date_modified=? where group_id=? "
 	log.Printf("Query : %s | GroupID : %d", statement, p.ProjectID)
 	response, err := tx.Exec(statement, p.GroupName, p.Description, p.ProjectID,
@@ -134,7 +134,7 @@ func (r *GroupsRepositoryImpl) Update(p *domain.Groups) error {
 // Update to update Group status
 func (r *GroupsRepositoryImpl) UpdateStatus(groupID int, status int) error {
 	tx, err := r.Conn.Begin()
-	statement := "update groups set active=?,date_modified=now() where group_id=? limit 1"
+	statement := "update access_control.groups set active=?,date_modified=now() where group_id=? limit 1"
 	log.Printf("Query : %s | GroupID : %d", statement, groupID)
 	response, err := tx.Exec(statement, status, groupID)
 	if err != nil {

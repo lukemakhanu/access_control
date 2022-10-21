@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package repository
 
-import (
-	"log"
+import "github.com/lukemakhanu/access_control/domain"
 
-	"github.com/lukemakhanu/access_control/interfaces"
-)
-
-func main() {
-	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
-	interfaces.Run(8070)
+// ModulesRepository represent repository of  the modules
+// Expect implementation by the infrastructure layer
+type ModulesRepository interface {
+	Get(id int) (*domain.Modules, error)
+	GetAll() ([]*domain.Modules, error)
+	Save(*domain.Modules) error
+	Update(*domain.Modules) error
+	UpdateStatus(moduleID int, status int) error
 }

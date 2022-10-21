@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package domain
 
-import (
-	"log"
-
-	"github.com/lukemakhanu/access_control/interfaces"
-)
-
-func main() {
-	log.SetFlags(log.LstdFlags | log.Lmicroseconds | log.Lshortfile)
-	interfaces.Run(8070)
+// Modules represent entity of the Module
+type Modules struct {
+	ModuleID     int    `json:"module_id"`
+	ProjectID    int    `json:"project_id"`
+	Active       string `json:"active"`
+	CreatedBy    int    `json:"created_by"`
+	UpdatedBy    int    `json:"updated_by"`
+	DateCreated  string `json:"date_created"`
+	DateModified string `json:"date_modified"`
 }

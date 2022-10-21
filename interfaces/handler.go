@@ -50,7 +50,7 @@ func Run(port int) {
 	}
 	portStr := fmt.Sprintf(":%d", port)
 	log.Printf("Running on port : %s", portStr)
-	Router.Run(":8070")
+	Router.Run(":8080")
 }
 
 // ProjectStatus : update status whether its active or not active
